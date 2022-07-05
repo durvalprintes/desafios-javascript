@@ -25,9 +25,13 @@
  *   height: 20
  * }
  */
+const get = (medida, tag) =>
+  tag.length > 0 ? Number(tag.match(new RegExp(medida + ':\\s+(\\d+)'))[1]) : 0
 
-const extractSize = htmlTemplate => {}
+const extractSize = (html) => {
+  const width = get('width', html)
+  const height = get('height', html)
+  return { width, height }
+}
 
-module.exports = extractSize;
-
-
+module.exports = extractSize
