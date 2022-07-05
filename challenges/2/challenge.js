@@ -52,6 +52,72 @@
  *  }
  */
 
-const normalizeData = unormalized => {}
+const normalizeData = (obj) => {
+  const {
+    id,
+    user: { id: user, name },
+    reports,
+  } = obj
+  return {
+    results: {
+      [id]: {
+        id,
+        user,
+        reports: reports.map((report) => report.id),
+      },
+    },
+    users: {
+      [user]: {
+        id: user,
+        name: name,
+      },
+    },
+    reports: reports.reduce((next, data) => {
+      const {
+        id: report,
+        result: { document, status },
+      } = data
+      return {
+        ...next,
+        [report]: {
+          id: report,
+          user: user,
+          document,
+          status,
+        },
+      }
+    }, {}),
+  }
+}
+
+// console.log(
+//   JSON.stringify(
+//     normalizeData({
+//       id: '6197b77e-3942-11ea-a137-2e728ce88125',
+//       user: {
+//         id: '6197ba94',
+//         name: 'Laura',
+//       },
+//       reports: [
+//         {
+//           id: '51ddf1a9',
+//           result: {
+//             document: '356.4325-10',
+//             status: 'em análise',
+//           },
+//         },
+//         {
+//           id: '00000000',
+//           result: {
+//             document: 'TESTE',
+//             status: 'TESTANDO',
+//           },
+//         },
+//       ],
+//     }),
+//     null,
+//     2,
+//   ),
+// )
 
 module.exports = normalizeData
