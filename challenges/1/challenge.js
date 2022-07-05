@@ -18,5 +18,5 @@
  */
 
 const MDC = (a, b) => (b != 0 ? MDC(b, a % b) : a)
-// console.log(MDC(147, 105))
+
 module.exports = MDC
