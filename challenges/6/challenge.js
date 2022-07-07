@@ -48,13 +48,18 @@
 
 const combinate = (set, target) => {
   let result, data
-  result = data = []
+  result = []
   for (const element of set) {
-    for (const next of set) {
-      if (target - element >= 0 && (target - element) % next == 0) {
-        data = [element, ...Array((target - element) / next).fill(next)].sort()
-        if (!result.find((e) => JSON.stringify(e) === JSON.stringify(data))) {
-          result.push(data)
+    for (let factor = 1; factor <= Math.floor(target / element); factor++) {
+      for (const next of set) {
+        if (target - element * factor >= 0 && (target - element * factor) % next == 0) {
+          data = [
+            ...Array(factor).fill(element),
+            ...Array(Math.floor((target - element * factor) / next)).fill(next),
+          ].sort()
+          if (!result.find((e) => JSON.stringify(e) === JSON.stringify(data))) {
+            result.push(data)
+          }
         }
       }
     }
