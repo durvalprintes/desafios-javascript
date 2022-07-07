@@ -49,17 +49,20 @@
 const combinate = (set, target) => {
   let result, data
   result = []
-  for (const element of set) {
-    for (let factor = 1; factor <= Math.floor(target / element); factor++) {
-      for (const next of set) {
-        if (target - element * factor >= 0 && (target - element * factor) % next == 0) {
-          data = [
-            ...Array(factor).fill(element),
-            ...Array(Math.floor((target - element * factor) / next)).fill(next),
-          ].sort()
-          if (!result.find((e) => JSON.stringify(e) === JSON.stringify(data))) {
-            result.push(data)
-          }
+  for (
+    let index = 0, factor = 1;
+    index < set.length;
+    index = factor == Math.floor(target / set[index]) ? index + 1 : index,
+      factor = factor <= Math.floor(target / set[index]) ? factor + 1 : 1
+  ) {
+    for (const next of set) {
+      if (target - set[index] * factor >= 0 && (target - set[index] * factor) % next == 0) {
+        data = [
+          ...Array(factor).fill(set[index]),
+          ...Array(Math.floor((target - set[index] * factor) / next)).fill(next),
+        ].sort()
+        if (!result.find((e) => JSON.stringify(e) === JSON.stringify(data))) {
+          result.push(data)
         }
       }
     }
