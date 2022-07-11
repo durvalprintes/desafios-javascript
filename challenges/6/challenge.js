@@ -52,14 +52,14 @@ const combinate = (set, target) => {
   for (
     let index = 0, factor = 1;
     index < set.length;
-    index = factor == Math.floor(target / set[index]) ? index + 1 : index,
-      factor = factor <= Math.floor(target / set[index]) ? factor + 1 : 1
+    index += factor == Math.ceil(target / set[index]) ? 1 : 0,
+      factor = factor <= Math.ceil(target / set[index]) ? factor + 1 : 1
   ) {
     for (const next of set) {
       if (target - set[index] * factor >= 0 && (target - set[index] * factor) % next == 0) {
         data = [
           ...Array(factor).fill(set[index]),
-          ...Array(Math.floor((target - set[index] * factor) / next)).fill(next),
+          ...Array(Math.ceil((target - set[index] * factor) / next)).fill(next),
         ].sort()
         if (!result.find((e) => JSON.stringify(e) === JSON.stringify(data))) {
           result.push(data)
